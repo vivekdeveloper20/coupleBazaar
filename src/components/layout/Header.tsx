@@ -39,7 +39,7 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">
-                  LoveNest
+                  Couple Bazzar
                 </h1>
                 <p className="text-xs text-gray-500">One Love, Two Addresses</p>
               </div>
@@ -161,7 +161,7 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               onClick={() => onNavigate('gift-card')}
               className="text-[15px] font-medium text-stone-600 hover:text-stone-800 transition-colors py-2"
             >
-              LoveNest Gift Card
+              Couple Bazzar Gift Card
             </button>
 
             {/* Gift Store - Dropdown */}
@@ -195,10 +195,10 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               </div>
             </div>
 
-            {/* More at LoveNest - Dropdown */}
+            {/* More at Couple Bazzar - Dropdown */}
             <div className="relative group">
               <button className="flex items-center space-x-1 text-[15px] font-medium text-stone-600 hover:text-stone-800 transition-colors py-2">
-                <span>More at LoveNest</span>
+                <span>More at Couple Bazzar</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
               <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">

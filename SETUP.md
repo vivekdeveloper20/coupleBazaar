@@ -1,8 +1,8 @@
-# LoveNest E-Commerce Setup Guide
+# Couple Bazzar E-Commerce Setup Guide
 
 ## Overview
 
-LoveNest is a fully functional couples e-commerce marketplace with a unique **Dual Delivery** feature that allows customers to send items to two different addresses in a single order.
+Couple Bazzar is a fully functional couples e-commerce marketplace with a unique **Dual Delivery** feature that allows customers to send items to two different addresses in a single order.
 
 ## Features
 
