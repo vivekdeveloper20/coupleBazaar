@@ -300,7 +300,7 @@ export function FAQPage({ onNavigate }: FAQPageProps) {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Us</h3>
               <p className="text-gray-500 text-sm mb-4">Mon-Sat, 9 AM - 9 PM IST</p>
-              <a href="tel:+918800123456" className="text-rose-500 font-semibold hover:text-rose-600">+91 8800 123 456</a>
+              <a href="tel:+918434487300" className="text-rose-500 font-semibold hover:text-rose-600">+91 84344 87300</a>
             </div>
             
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow border border-rose-100 group hover:-translate-y-1 duration-300">

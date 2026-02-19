@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, ShoppingCart, User, Search, Menu, X, ChevronDown } from 'lucide-react';
+import { Heart, ShoppingCart, User, Search, Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
 import { LoginModal } from '../auth/LoginModal';
@@ -17,12 +17,18 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
   const [showSignup, setShowSignup] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       onNavigate(`products?search=${searchQuery}`);
+      setShowMobileMenu(false);
     }
+  };
+
+  const toggleMobileSubmenu = (menu: string) => {
+    setExpandedMenu(expandedMenu === menu ? null : menu);
   };
 
   return (
@@ -210,26 +216,189 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
         </div>
 
         {showMobileMenu && (
-          <div className="md:hidden border-t border-gray-200 bg-white">
-            <nav className="px-4 py-4 space-y-2">
+          <div className="md:hidden border-t border-gray-200 bg-white max-h-[80vh] overflow-y-auto">
+            {/* Mobile Search */}
+            <form onSubmit={handleSearch} className="px-4 py-3 border-b border-gray-100">
+              <div className="relative w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for gifts..."
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                />
+              </div>
+            </form>
+
+            <nav className="px-4 py-4 space-y-1">
+              {/* Home */}
               <button
                 onClick={() => {
                   onNavigate('home');
                   setShowMobileMenu(false);
                 }}
-                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
               >
                 Home
               </button>
+
+              {/* Shop by Category - Expandable */}
+              <div>
+                <button
+                  onClick={() => toggleMobileSubmenu('category')}
+                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+                >
+                  <span>Shop by Category</span>
+                  <ChevronRight className={`w-5 h-5 transition-transform ${expandedMenu === 'category' ? 'rotate-90' : ''}`} />
+                </button>
+                {expandedMenu === 'category' && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-rose-200 pl-4">
+                    <button onClick={() => { onNavigate('products?category=rings'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Rings</button>
+                    <button onClick={() => { onNavigate('products?category=necklaces'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Necklaces</button>
+                    <button onClick={() => { onNavigate('products?category=bracelets'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Bracelets</button>
+                    <button onClick={() => { onNavigate('products?category=earrings'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Earrings</button>
+                    <button onClick={() => { onNavigate('products?category=watches'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Watches</button>
+                  </div>
+                )}
+              </div>
+
+              {/* Gifts for Him */}
               <button
                 onClick={() => {
-                  onNavigate('products');
+                  onNavigate('products?for=him');
                   setShowMobileMenu(false);
                 }}
-                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
               >
-                Shop All
+                Gifts for Him
               </button>
+
+              {/* Gifts for Her */}
+              <button
+                onClick={() => {
+                  onNavigate('products?for=her');
+                  setShowMobileMenu(false);
+                }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+              >
+                Gifts for Her
+              </button>
+
+              {/* Gift Card */}
+              <button
+                onClick={() => {
+                  onNavigate('gift-card');
+                  setShowMobileMenu(false);
+                }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+              >
+                Gift Card
+              </button>
+
+              {/* Gift Store - Expandable */}
+              <div>
+                <button
+                  onClick={() => toggleMobileSubmenu('store')}
+                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+                >
+                  <span>Gift Store</span>
+                  <ChevronRight className={`w-5 h-5 transition-transform ${expandedMenu === 'store' ? 'rotate-90' : ''}`} />
+                </button>
+                {expandedMenu === 'store' && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-rose-200 pl-4">
+                    <button onClick={() => { onNavigate('products?occasion=Valentine'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Valentine's Day</button>
+                    <button onClick={() => { onNavigate('products?occasion=Anniversary'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Anniversary</button>
+                    <button onClick={() => { onNavigate('products?occasion=Birthday'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Birthday</button>
+                    <button onClick={() => { onNavigate('products?occasion=Wedding'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Wedding</button>
+                  </div>
+                )}
+              </div>
+
+              {/* Exclusive Collections - Expandable */}
+              <div>
+                <button
+                  onClick={() => toggleMobileSubmenu('exclusive')}
+                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+                >
+                  <span>Exclusive Collections</span>
+                  <ChevronRight className={`w-5 h-5 transition-transform ${expandedMenu === 'exclusive' ? 'rotate-90' : ''}`} />
+                </button>
+                {expandedMenu === 'exclusive' && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-rose-200 pl-4">
+                    <button onClick={() => { onNavigate('premium-collection'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Premium Collection</button>
+                    <button onClick={() => { onNavigate('couple-collection'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Couple Collection</button>
+                    <button onClick={() => { onNavigate('limited-edition'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Limited Edition</button>
+                  </div>
+                )}
+              </div>
+
+              {/* More at Couple Bazzar - Expandable */}
+              <div>
+                <button
+                  onClick={() => toggleMobileSubmenu('more')}
+                  className="flex items-center justify-between w-full px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+                >
+                  <span>More at Couple Bazzar</span>
+                  <ChevronRight className={`w-5 h-5 transition-transform ${expandedMenu === 'more' ? 'rotate-90' : ''}`} />
+                </button>
+                {expandedMenu === 'more' && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-rose-200 pl-4">
+                    <button onClick={() => { onNavigate('about'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">About Us</button>
+                    <button onClick={() => { onNavigate('contact'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Contact</button>
+                    <button onClick={() => { onNavigate('blog'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">Blog</button>
+                    <button onClick={() => { onNavigate('faq'); setShowMobileMenu(false); }} className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-rose-600">FAQs</button>
+                  </div>
+                )}
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-200 my-3"></div>
+
+              {/* My Orders */}
+              <button
+                onClick={() => {
+                  onNavigate('orders');
+                  setShowMobileMenu(false);
+                }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+              >
+                My Orders
+              </button>
+
+              {/* Wishlist */}
+              <button
+                onClick={() => {
+                  onNavigate('wishlist');
+                  setShowMobileMenu(false);
+                }}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-rose-50 hover:text-rose-600 rounded-lg font-medium"
+              >
+                Wishlist
+              </button>
+
+              {/* Sign In/Out */}
+              {user ? (
+                <button
+                  onClick={() => {
+                    signOut();
+                    setShowMobileMenu(false);
+                  }}
+                  className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium"
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setShowLogin(true);
+                    setShowMobileMenu(false);
+                  }}
+                  className="block w-full text-center px-4 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg font-medium mt-4"
+                >
+                  Sign In
+                </button>
+              )}
             </nav>
           </div>
         )}

@@ -30,7 +30,7 @@ export const ContactPage = ({ onNavigate }: ContactPageProps) => {
     {
       icon: Phone,
       title: 'Phone',
-      details: ['+91 98765 43210', '+91 12345 67890'],
+      details: ['+91 84344 87300'],
       color: 'from-green-500 to-emerald-500',
     },
     {
@@ -175,7 +175,7 @@ export const ContactPage = ({ onNavigate }: ContactPageProps) => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 84344 87300"
                       />
                     </div>
                     <div>

@@ -1,4 +1,4 @@
-import { Heart, Users, Gift, Sparkles, Target, Award, Truck, Shield } from 'lucide-react';
+import { Heart, Users, Gift, Sparkles, Target, Award, Truck, Shield, Eye, Rocket } from 'lucide-react';
 import { Footer } from '../components/layout/Footer';
 
 interface AboutPageProps {
@@ -70,22 +70,22 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
 
   const team = [
     {
-      name: 'Priya Sharma',
-      role: 'Founder & CEO',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300',
-      bio: 'Started Couple Bazzar with a vision to make gifting magical for couples everywhere.',
-    },
-    {
-      name: 'Rahul Verma',
-      role: 'Head of Operations',
+      name: 'Vivek Kumar',
+      role: 'Co-Founder & CEO',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300',
-      bio: 'Ensures every gift reaches its destination with care and on time.',
+      bio: 'Visionary leader who started Couple Bazzar with the dream of revolutionizing how couples express love through gifting.',
     },
     {
-      name: 'Ananya Patel',
-      role: 'Creative Director',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300',
-      bio: 'Curates our exclusive collections with an eye for beauty and romance.',
+      name: 'Navneet Singh',
+      role: 'Co-Founder & CEO',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300',
+      bio: 'Tech innovator driving the platform\'s growth and ensuring seamless experience for every customer.',
+    },
+    {
+      name: 'Alok Kumar',
+      role: 'Co-Founder & CEO',
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300',
+      bio: 'Business strategist who built partnerships with premium brands to bring exclusive gifts to couples.',
     },
   ];
 
@@ -149,9 +149,9 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
                   Couple Bazzar was born in 2023 from a simple observation: couples in long-distance 
-                  relationships struggled to send meaningful gifts to each other. Our founder, Priya, 
-                  experienced this firsthand when she couldn't find a platform that could deliver 
-                  thoughtful gifts to her partner's doorstep.
+                  relationships struggled to send meaningful gifts to each other. Our founders - Vivek Kumar, 
+                  Navneet Singh, and Alok Kumar - experienced this firsthand when they couldn't find a platform 
+                  that could deliver thoughtful gifts to their loved ones' doorstep.
                 </p>
                 <p>
                   What started as a small operation has grown into India's most loved couples gifting 
@@ -164,6 +164,67 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
                   gifts together, even when apart.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision Section */}
+      <section className="py-20 bg-gradient-to-br from-rose-500 to-pink-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Mission */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <Rocket className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
+              <p className="text-rose-100 leading-relaxed">
+                To make every couple's love story more beautiful by providing thoughtfully curated gifts 
+                that bridge distances and create unforgettable moments. We aim to be the go-to destination 
+                for couples who want to express their love in meaningful ways, regardless of where they are.
+              </p>
+              <ul className="mt-6 space-y-3 text-rose-100">
+                <li className="flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-white" />
+                  <span>Spread love through meaningful gifts</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Gift className="w-5 h-5 text-white" />
+                  <span>Curate premium quality products</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-white" />
+                  <span>Connect couples across distances</span>
+                </li>
+              </ul>
+            </div>
+            
+            {/* Vision */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
+                <Eye className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Our Vision</h3>
+              <p className="text-rose-100 leading-relaxed">
+                To become India's most loved and trusted couples gifting platform, where every gift tells 
+                a story and every delivery creates a smile. We envision a world where distance never 
+                dims the spark of love, and where technology brings hearts closer together.
+              </p>
+              <ul className="mt-6 space-y-3 text-rose-100">
+                <li className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-white" />
+                  <span>Become #1 couples gifting platform</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-white" />
+                  <span>Innovate gifting experiences</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Award className="w-5 h-5 text-white" />
+                  <span>Set new standards in quality</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -196,11 +257,11 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-rose-500 to-pink-600">
+      <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">What Makes Us Special</h2>
-            <p className="text-rose-100 max-w-2xl mx-auto">
+            <p className="text-gray-300 max-w-2xl mx-auto">
               Unique features designed with couples in mind.
             </p>
           </div>
@@ -208,13 +269,13 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
             {features.map((feature, index) => (
               <div 
                 key={index}
-                className="group p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/20 transition-all"
+                className="group p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-rose-500/20 hover:bg-white/20 hover:border-rose-500/50 transition-all"
               >
-                <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                <p className="text-rose-100 text-sm">{feature.description}</p>
+                <p className="text-gray-300 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>

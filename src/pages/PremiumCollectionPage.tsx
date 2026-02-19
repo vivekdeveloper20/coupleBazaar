@@ -102,9 +102,9 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-pink-50">
+    <div className="min-h-screen bg-gradient-to-b from-purple-950 via-purple-900 to-purple-950">
       {/* Header */}
-      <div className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 text-white">
+      <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 text-white border-b border-amber-500/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
             onClick={() => onNavigate('home')}
@@ -118,27 +118,44 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-rose-100"></div>
-        <div className="absolute top-10 left-10 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-purple-950 to-purple-900"></div>
+        {/* Decorative circles like in the image */}
+        <div className="absolute top-10 left-10 w-20 h-20 border-4 border-amber-500 rounded-full opacity-60"></div>
+        <div className="absolute bottom-20 left-20 w-32 h-32 border-4 border-amber-400 rounded-full opacity-40"></div>
+        <div className="absolute top-1/2 right-10 w-64 h-64 border-4 border-amber-500 rounded-full opacity-50"></div>
+        <div className="absolute bottom-10 right-20 w-40 h-40 border-4 border-fuchsia-500 rounded-full opacity-40"></div>
+        {/* Gold dots decoration */}
+        <div className="absolute bottom-32 left-10 grid grid-cols-8 gap-1">
+          {[...Array(24)].map((_, i) => (
+            <div key={i} className="w-1.5 h-1.5 bg-amber-400 rounded-full opacity-60"></div>
+          ))}
+        </div>
+        <div className="absolute top-10 right-32 grid grid-cols-6 gap-1">
+          {[...Array(12)].map((_, i) => (
+            <div key={i} className="w-1 h-1 bg-amber-500 rounded-full opacity-50"></div>
+          ))}
+        </div>
+        {/* Curved accent lines */}
+        <div className="absolute top-0 right-0 w-96 h-96 border-r-8 border-b-8 border-amber-500/50 rounded-br-full"></div>
+        <div className="absolute top-0 right-8 w-96 h-96 border-r-8 border-b-8 border-fuchsia-500/40 rounded-br-full"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full mb-6 shadow-2xl shadow-rose-500/30">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full mb-6 shadow-2xl shadow-amber-500/30 ring-4 ring-amber-400/30">
               <Crown className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">Premium Collection</span>
+              <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 bg-clip-text text-transparent">Premium Collection</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+            <p className="text-xl text-purple-200 max-w-2xl mx-auto mb-8">
               Discover our exclusive range of luxury gifts crafted for those who deserve nothing but the best. 
               Each piece is handpicked to make your special moments unforgettable.
             </p>
-            <div className="flex items-center justify-center gap-4 text-rose-600">
-              <span className="flex items-center gap-1"><Star className="w-5 h-5 fill-rose-500 text-rose-500" /> 4.8+ Rating</span>
-              <span className="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+            <div className="flex items-center justify-center gap-4 text-amber-300">
+              <span className="flex items-center gap-1"><Star className="w-5 h-5 fill-amber-400 text-amber-400" /> 4.8+ Rating</span>
+              <span className="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>
               <span>500+ Premium Products</span>
-              <span className="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+              <span className="w-1.5 h-1.5 bg-amber-400 rounded-full"></span>
               <span>Free Gift Packaging</span>
             </div>
           </div>
@@ -146,16 +163,16 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
       </section>
 
       {/* Features */}
-      <section className="py-12 bg-white/50">
+      <section className="py-12 bg-purple-900/50 border-y border-amber-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {features.map((feature, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow">
-                <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl mb-4">
+              <div key={idx} className="text-center p-6 rounded-2xl bg-purple-800/50 backdrop-blur border border-amber-500/20 hover:border-amber-500/50 transition-all hover:shadow-xl hover:shadow-amber-500/10">
+                <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl mb-4 ring-2 ring-amber-400/30">
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
-                <p className="text-sm text-gray-500">{feature.desc}</p>
+                <h3 className="font-semibold text-amber-100 mb-1">{feature.title}</h3>
+                <p className="text-sm text-purple-300">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -166,10 +183,10 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-bold text-gray-900">Featured Premium Gifts</h2>
+            <h2 className="text-3xl font-bold text-amber-100">Featured Premium Gifts</h2>
             <button 
               onClick={() => onNavigate('products')}
-              className="flex items-center gap-2 text-rose-600 hover:text-rose-700 font-medium"
+              className="flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium"
             >
               View All <ChevronRight className="w-5 h-5" />
             </button>
@@ -179,7 +196,7 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
             {premiumProducts.map((product) => (
               <div 
                 key={product.id}
-                className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                className="group bg-purple-800/60 backdrop-blur rounded-3xl shadow-lg hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-500 overflow-hidden border border-amber-500/20 hover:border-amber-500/50"
                 onMouseEnter={() => setHoveredProduct(product.id)}
                 onMouseLeave={() => setHoveredProduct(null)}
               >
@@ -190,7 +207,7 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-xs font-bold rounded-full">
+                    <span className="px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold rounded-full shadow-lg">
                       {product.tag}
                     </span>
                   </div>
@@ -202,10 +219,10 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
                   </button>
                   
                   {hoveredProduct === product.id && (
-                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
+                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-purple-950/90 to-transparent">
                       <button 
                         onClick={() => onAddToCart(product)}
-                        className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-semibold rounded-xl hover:from-amber-600 hover:to-yellow-600 transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all flex items-center justify-center gap-2 shadow-lg"
                       >
                         <ShoppingCart className="w-5 h-5" />
                         Add to Cart
@@ -215,18 +232,18 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
                 </div>
                 
                 <div className="p-5">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+                  <h3 className="font-semibold text-amber-50 mb-2 line-clamp-2">{product.name}</h3>
                   <div className="flex items-center gap-2 mb-3">
                     <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
-                      <span className="text-sm font-medium text-gray-700">{product.rating}</span>
+                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm font-medium text-purple-200">{product.rating}</span>
                     </div>
-                    <span className="text-sm text-gray-400">({product.reviews} reviews)</span>
+                    <span className="text-sm text-purple-400">({product.reviews} reviews)</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xl font-bold text-amber-600">₹{product.price.toLocaleString()}</span>
-                    <span className="text-sm text-gray-400 line-through">₹{product.originalPrice.toLocaleString()}</span>
-                    <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+                    <span className="text-xl font-bold text-amber-400">₹{product.price.toLocaleString()}</span>
+                    <span className="text-sm text-purple-400 line-through">₹{product.originalPrice.toLocaleString()}</span>
+                    <span className="text-xs font-semibold text-green-400 bg-green-900/50 px-2 py-0.5 rounded-full">
                       {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
                     </span>
                   </div>
@@ -238,8 +255,11 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      <section className="py-16 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-5 left-5 w-16 h-16 border-4 border-white/30 rounded-full"></div>
+        <div className="absolute bottom-5 right-10 w-24 h-24 border-4 border-white/20 rounded-full"></div>
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Make Every Moment Premium
           </h2>
@@ -248,7 +268,7 @@ export default function PremiumCollectionPage({ onNavigate, onAddToCart, onAddTo
           </p>
           <button 
             onClick={() => onNavigate('products')}
-            className="px-8 py-4 bg-white text-amber-600 font-bold rounded-full hover:bg-amber-50 transition-colors shadow-xl"
+            className="px-8 py-4 bg-purple-900 text-amber-300 font-bold rounded-full hover:bg-purple-800 transition-colors shadow-xl border-2 border-amber-300/50"
           >
             Explore All Premium Gifts
           </button>
