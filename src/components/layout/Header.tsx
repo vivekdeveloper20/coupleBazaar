@@ -37,14 +37,8 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               <img 
                 src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
                 alt="Couple Bazzar Logo" 
-                className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+                className="h-12 object-contain group-hover:scale-110 transition-transform"
               />
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">
-                  Couple Bazzar
-                </h1>
-                <p className="text-xs text-gray-500">One Love, Two Addresses</p>
-              </div>
             </button>
 
             <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-8">
