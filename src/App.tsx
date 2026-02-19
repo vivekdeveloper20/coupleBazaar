@@ -10,6 +10,10 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { WishlistPage } from './pages/WishlistPage';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { AboutPage } from './pages/AboutPage';
+import { ContactPage } from './pages/ContactPage';
+import { BlogPage } from './pages/BlogPage';
+import { FAQPage } from './pages/FAQPage';
 import { isSupabaseConfigured } from './lib/supabase';
 
 function App() {
@@ -84,6 +88,14 @@ function App() {
         return <WishlistPage onNavigate={navigate} />;
       case 'admin':
         return <AdminDashboard onNavigate={navigate} />;
+      case 'about':
+        return <AboutPage onNavigate={navigate} />;
+      case 'contact':
+        return <ContactPage onNavigate={navigate} />;
+      case 'blog':
+        return <BlogPage onNavigate={navigate} />;
+      case 'faq':
+        return <FAQPage onNavigate={navigate} />;
       default:
         return <HomePage onNavigate={navigate} />;
     }

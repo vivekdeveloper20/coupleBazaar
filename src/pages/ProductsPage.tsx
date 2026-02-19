@@ -1,8 +1,265 @@
 import { useEffect, useState } from 'react';
 import { Filter, Star, Heart, SlidersHorizontal } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { isSupabaseConfigured } from '../lib/supabase';
 import { Product } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+
+// Demo products for when Supabase is not configured
+const demoProducts: Product[] = [
+  {
+    id: 'demo-1',
+    name: 'Heart Pendant Necklace',
+    slug: 'heart-pendant-necklace',
+    description: 'Beautiful rose gold heart pendant necklace, perfect for expressing your love.',
+    category_id: 'cat-1',
+    base_price: 89.99,
+    discount_percentage: 10,
+    final_price: 80.99,
+    stock_quantity: 50,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Valentine', 'Anniversary'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.8,
+    rating_count: 124,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-1', product_id: 'demo-1', image_url: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-2',
+    name: 'Red Rose Bouquet',
+    slug: 'red-rose-bouquet',
+    description: 'Stunning bouquet of 24 fresh red roses, symbolizing deep love and passion.',
+    category_id: 'cat-2',
+    base_price: 59.99,
+    discount_percentage: 0,
+    final_price: 59.99,
+    stock_quantity: 100,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Valentine', 'Anniversary', 'Just Because'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.9,
+    rating_count: 256,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-2', product_id: 'demo-2', image_url: 'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-3',
+    name: 'Luxury Chocolate Box',
+    slug: 'luxury-chocolate-box',
+    description: 'Premium Belgian chocolates in a beautiful heart-shaped box. 24 assorted pieces.',
+    category_id: 'cat-3',
+    base_price: 49.99,
+    discount_percentage: 15,
+    final_price: 42.49,
+    stock_quantity: 75,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Valentine', 'Birthday', 'Just Because'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.7,
+    rating_count: 89,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-3', product_id: 'demo-3', image_url: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-4',
+    name: 'Couple Photo Frame',
+    slug: 'couple-photo-frame',
+    description: 'Personalized wooden photo frame with custom engraving.',
+    category_id: 'cat-4',
+    base_price: 39.99,
+    discount_percentage: 0,
+    final_price: 39.99,
+    stock_quantity: 200,
+    is_active: true,
+    is_featured: false,
+    occasion: ['Valentine', 'Anniversary', 'Wedding'],
+    allows_personalization: true,
+    personalization_price: 10,
+    rating_average: 4.6,
+    rating_count: 67,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-4', product_id: 'demo-4', image_url: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-5',
+    name: 'Spa Day for Two',
+    slug: 'spa-day-for-two',
+    description: 'Relaxing couples spa experience including massage, facial, and aromatherapy session.',
+    category_id: 'cat-5',
+    base_price: 199.99,
+    discount_percentage: 20,
+    final_price: 159.99,
+    stock_quantity: 30,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Valentine', 'Anniversary'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.9,
+    rating_count: 45,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-5', product_id: 'demo-5', image_url: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-6',
+    name: 'Diamond Stud Earrings',
+    slug: 'diamond-stud-earrings',
+    description: 'Elegant 0.5 carat diamond stud earrings in 14k white gold setting.',
+    category_id: 'cat-1',
+    base_price: 499.99,
+    discount_percentage: 10,
+    final_price: 449.99,
+    stock_quantity: 25,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Anniversary', 'Wedding'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.9,
+    rating_count: 78,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-6', product_id: 'demo-6', image_url: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-7',
+    name: 'Mixed Flower Arrangement',
+    slug: 'mixed-flower-arrangement',
+    description: 'Beautiful arrangement of roses, lilies, and orchids in an elegant vase.',
+    category_id: 'cat-2',
+    base_price: 79.99,
+    discount_percentage: 0,
+    final_price: 79.99,
+    stock_quantity: 60,
+    is_active: true,
+    is_featured: false,
+    occasion: ['Anniversary', 'Birthday', 'Just Because'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.7,
+    rating_count: 134,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-7', product_id: 'demo-7', image_url: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-8',
+    name: 'Custom Star Map',
+    slug: 'custom-star-map',
+    description: 'Personalized star map showing the night sky from any special date and location.',
+    category_id: 'cat-4',
+    base_price: 59.99,
+    discount_percentage: 0,
+    final_price: 59.99,
+    stock_quantity: 150,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Anniversary', 'Wedding', 'Birthday'],
+    allows_personalization: true,
+    personalization_price: 15,
+    rating_average: 4.8,
+    rating_count: 189,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-8', product_id: 'demo-8', image_url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-9',
+    name: 'Birthstone Bracelet',
+    slug: 'birthstone-bracelet',
+    description: 'Delicate sterling silver bracelet featuring your birthstone gem.',
+    category_id: 'cat-1',
+    base_price: 69.99,
+    discount_percentage: 0,
+    final_price: 69.99,
+    stock_quantity: 80,
+    is_active: true,
+    is_featured: false,
+    occasion: ['Birthday', 'Just Because'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.6,
+    rating_count: 92,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-9', product_id: 'demo-9', image_url: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-10',
+    name: 'Gourmet Cookie Box',
+    slug: 'gourmet-cookie-box',
+    description: 'Assorted gourmet cookies - chocolate chip, red velvet, and macadamia nut.',
+    category_id: 'cat-3',
+    base_price: 34.99,
+    discount_percentage: 0,
+    final_price: 34.99,
+    stock_quantity: 100,
+    is_active: true,
+    is_featured: false,
+    occasion: ['Birthday', 'Just Because'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.5,
+    rating_count: 78,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-10', product_id: 'demo-10', image_url: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-11',
+    name: 'Wedding Band Set',
+    slug: 'wedding-band-set',
+    description: 'Matching platinum wedding bands with subtle diamond accents.',
+    category_id: 'cat-1',
+    base_price: 899.99,
+    discount_percentage: 5,
+    final_price: 854.99,
+    stock_quantity: 15,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Wedding'],
+    allows_personalization: false,
+    personalization_price: 0,
+    rating_average: 4.9,
+    rating_count: 23,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-11', product_id: 'demo-11', image_url: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+  {
+    id: 'demo-12',
+    name: 'Mr & Mrs Sign',
+    slug: 'mr-mrs-sign',
+    description: 'Custom wooden Mr & Mrs sign with your wedding date, perfect for home decor.',
+    category_id: 'cat-4',
+    base_price: 49.99,
+    discount_percentage: 0,
+    final_price: 49.99,
+    stock_quantity: 100,
+    is_active: true,
+    is_featured: true,
+    occasion: ['Wedding', 'Anniversary'],
+    allows_personalization: true,
+    personalization_price: 10,
+    rating_average: 4.8,
+    rating_count: 167,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    images: [{ id: 'img-12', product_id: 'demo-12', image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=500', display_order: 1, created_at: new Date().toISOString() }],
+  },
+];
 
 interface ProductsPageProps {
   onNavigate: (page: string) => void;
@@ -24,10 +281,37 @@ export const ProductsPage = ({ onNavigate, searchParams }: ProductsPageProps) =>
       if (occasion) setSelectedOccasion(occasion);
     }
     fetchProducts();
-  }, [searchParams, sortBy, selectedOccasion]);
+  }, [searchParams, sortBy, selectedOccasion, priceRange]);
 
   const fetchProducts = async () => {
     setLoading(true);
+    
+    // Use demo products if Supabase is not configured
+    if (!isSupabaseConfigured) {
+      let filtered = demoProducts.filter(
+        (p) => p.final_price >= priceRange[0] && p.final_price <= priceRange[1]
+      );
+      
+      if (selectedOccasion) {
+        filtered = filtered.filter((p) => p.occasion.includes(selectedOccasion));
+      }
+      
+      // Apply sorting
+      if (sortBy === 'price_asc') {
+        filtered.sort((a, b) => a.final_price - b.final_price);
+      } else if (sortBy === 'price_desc') {
+        filtered.sort((a, b) => b.final_price - a.final_price);
+      } else if (sortBy === 'popularity') {
+        filtered.sort((a, b) => b.rating_count - a.rating_count);
+      } else {
+        filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      }
+      
+      setProducts(filtered);
+      setLoading(false);
+      return;
+    }
+    
     let query = supabase
       .from('products')
       .select('*, images:product_images(*), category:categories(*)')
@@ -49,11 +333,30 @@ export const ProductsPage = ({ onNavigate, searchParams }: ProductsPageProps) =>
 
     const { data } = await query;
 
-    if (data) {
+    if (data && data.length > 0) {
       const filtered = data.filter(
         (p) => p.final_price >= priceRange[0] && p.final_price <= priceRange[1]
       );
       setProducts(filtered as Product[]);
+    } else {
+      // Fallback to demo products if database is empty
+      let filtered = demoProducts.filter(
+        (p) => p.final_price >= priceRange[0] && p.final_price <= priceRange[1]
+      );
+      
+      if (selectedOccasion) {
+        filtered = filtered.filter((p) => p.occasion.includes(selectedOccasion));
+      }
+      
+      if (sortBy === 'price_asc') {
+        filtered.sort((a, b) => a.final_price - b.final_price);
+      } else if (sortBy === 'price_desc') {
+        filtered.sort((a, b) => b.final_price - a.final_price);
+      } else if (sortBy === 'popularity') {
+        filtered.sort((a, b) => b.rating_count - a.rating_count);
+      }
+      
+      setProducts(filtered);
     }
     setLoading(false);
   };
