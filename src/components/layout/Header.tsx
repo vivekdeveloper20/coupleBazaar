@@ -34,9 +34,11 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               onClick={() => onNavigate('home')}
               className="flex items-center space-x-2 group"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/30 group-hover:scale-110 transition-transform">
-                <Heart className="w-6 h-6 text-white fill-white" />
-              </div>
+              <img 
+                src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
+                alt="Couple Bazzar Logo" 
+                className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+              />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">
                   Couple Bazzar

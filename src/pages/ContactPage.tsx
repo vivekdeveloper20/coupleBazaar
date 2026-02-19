@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Headphones, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 interface ContactPageProps {
   onNavigate: (page: string) => void;
@@ -83,6 +84,7 @@ export const ContactPage = ({ onNavigate }: ContactPageProps) => {
   ];
 
   return (
+    <>
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-20">
@@ -303,5 +305,7 @@ export const ContactPage = ({ onNavigate }: ContactPageProps) => {
         </div>
       </section>
     </div>
+      <Footer onNavigate={onNavigate} />
+    </>
   );
 };

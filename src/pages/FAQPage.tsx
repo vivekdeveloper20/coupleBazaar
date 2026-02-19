@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Search, ShoppingBag, Truck, CreditCard, RefreshCw, Gift, Shield, HelpCircle, MessageCircle } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 interface FAQPageProps {
   onNavigate: (page: string) => void;
@@ -168,6 +169,7 @@ export const FAQPage = ({ onNavigate }: FAQPageProps) => {
   });
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-rose-500 py-20">
@@ -335,5 +337,7 @@ export const FAQPage = ({ onNavigate }: FAQPageProps) => {
         </div>
       </section>
     </div>
+      <Footer onNavigate={onNavigate} />
+    </>
   );
 };

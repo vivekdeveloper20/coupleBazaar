@@ -1852,9 +1852,11 @@ export const HomePage = ({ onNavigate }: HomePageProps) => {
             {/* Brand Section */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg shadow-rose-500/30">
-                  <Heart className="w-7 h-7 text-white fill-white" />
-                </div>
+                <img 
+                  src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
+                  alt="Couple Bazzar Logo" 
+                  className="w-12 h-12 object-contain"
+                />
                 <div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">Couple Bazzar</span>
                   <p className="text-xs text-gray-500">Couple Gifting Platform</p>

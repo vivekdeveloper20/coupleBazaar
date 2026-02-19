@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Calendar, ArrowRight, Heart, Clock, Tag, Search, TrendingUp } from 'lucide-react';
+import { Footer } from '../components/layout/Footer';
 
 interface BlogPageProps {
   onNavigate: (page: string) => void;
 }
 
-export const BlogPage = ({ onNavigate: _onNavigate }: BlogPageProps) => {
+export const BlogPage = ({ onNavigate }: BlogPageProps) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -118,6 +119,7 @@ export const BlogPage = ({ onNavigate: _onNavigate }: BlogPageProps) => {
   });
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 py-20">
@@ -352,5 +354,7 @@ export const BlogPage = ({ onNavigate: _onNavigate }: BlogPageProps) => {
         </div>
       </div>
     </div>
+      <Footer onNavigate={onNavigate} />
+    </>
   );
 };
