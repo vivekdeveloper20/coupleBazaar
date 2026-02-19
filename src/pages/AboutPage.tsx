@@ -100,7 +100,7 @@ const AboutPageContent = ({ onNavigate }: AboutPageProps) => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full mb-8 shadow-2xl shadow-rose-500/30 p-3">
-              <img src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" alt="Couple Bazzar" className="w-full h-full object-contain" />
+              <img src="/logo.png" alt="Couple Bazzar" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               About <span className="bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent">Couple Bazzar</span>

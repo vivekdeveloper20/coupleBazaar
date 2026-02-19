@@ -1853,14 +1853,10 @@ export const HomePage = ({ onNavigate }: HomePageProps) => {
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 <img 
-                  src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
+                  src="/logo.png" 
                   alt="Couple Bazzar Logo" 
-                  className="w-12 h-12 object-contain"
+                  className="h-16 object-contain"
                 />
-                <div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">Couple Bazzar</span>
-                  <p className="text-xs text-gray-500">Couple Gifting Platform</p>
-                </div>
               </div>
               <p className="text-gray-400 text-sm mb-6 leading-relaxed">
                 One Love. Two Addresses. One Order. Making couple gifting magical with dual delivery and curated romantic collections.

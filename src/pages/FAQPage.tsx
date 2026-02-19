@@ -1,343 +1,321 @@
 import { useState } from 'react';
-import { ChevronDown, Search, ShoppingBag, Truck, CreditCard, RefreshCw, Gift, Shield, HelpCircle, MessageCircle } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Search, MessageCircle, Phone, Mail, HelpCircle, Package, CreditCard, Truck, Gift, Heart, Shield, Clock } from 'lucide-react';
 import { Footer } from '../components/layout/Footer';
 
 interface FAQPageProps {
   onNavigate: (page: string) => void;
 }
 
-export const FAQPage = ({ onNavigate }: FAQPageProps) => {
+const faqCategories = [
+  { id: 'all', name: 'All FAQs', icon: HelpCircle, count: 24 },
+  { id: 'orders', name: 'Orders & Delivery', icon: Package, count: 8 },
+  { id: 'payments', name: 'Payments', icon: CreditCard, count: 5 },
+  { id: 'shipping', name: 'Shipping', icon: Truck, count: 4 },
+  { id: 'gifts', name: 'Gift Services', icon: Gift, count: 4 },
+  { id: 'returns', name: 'Returns & Refunds', icon: Shield, count: 3 },
+];
+
+const faqs = [
+  {
+    category: 'orders',
+    question: 'How do I track my order?',
+    answer: 'Once your order is shipped, you will receive a tracking link via email and SMS. You can also track your order from the "My Orders" section in your account. We provide real-time updates at every step of the delivery process.'
+  },
+  {
+    category: 'orders',
+    question: 'What is "Dual Delivery" feature?',
+    answer: 'Dual Delivery is our signature feature that allows you to send the same gift to two different addresses in a single order - perfect for couples in long-distance relationships! Both packages are shipped simultaneously with personalized messages for each recipient.'
+  },
+  {
+    category: 'orders',
+    question: 'Can I modify my order after placing it?',
+    answer: 'You can modify your order within 2 hours of placing it, as long as it hasn\'t been processed for shipping. Go to "My Orders" and click on "Modify Order". After 2 hours, please contact our support team for assistance.'
+  },
+  {
+    category: 'orders',
+    question: 'How do I cancel my order?',
+    answer: 'Orders can be cancelled within 24 hours of placement if not yet shipped. Go to "My Orders" → Select Order → "Cancel Order". Refunds are processed within 5-7 business days to your original payment method.'
+  },
+  {
+    category: 'orders',
+    question: 'What if my order arrives damaged?',
+    answer: 'We take utmost care in packaging, but if your order arrives damaged, please take photos and contact us within 48 hours. We\'ll arrange a free replacement or full refund - no questions asked!'
+  },
+  {
+    category: 'payments',
+    question: 'What payment methods do you accept?',
+    answer: 'We accept all major payment methods including Credit/Debit Cards (Visa, Mastercard, RuPay), UPI (GPay, PhonePe, Paytm), Net Banking, Wallets, and Cash on Delivery (COD) for orders under ₹5000. EMI options are available on orders above ₹3000.'
+  },
+  {
+    category: 'payments',
+    question: 'Is my payment information secure?',
+    answer: 'Absolutely! We use 256-bit SSL encryption and are PCI-DSS compliant. Your card details are never stored on our servers. All transactions are processed through secure payment gateways like Razorpay and PayU.'
+  },
+  {
+    category: 'payments',
+    question: 'Can I use multiple payment methods?',
+    answer: 'Yes! You can combine store credits, gift cards, or wallet balance with any other payment method. Simply apply your credits first, and pay the remaining amount via your preferred method.'
+  },
+  {
+    category: 'payments',
+    question: 'What is your EMI policy?',
+    answer: 'We offer No-Cost EMI on orders above ₹3000 with select bank cards. EMI tenure ranges from 3 to 12 months. The EMI option will appear at checkout if your order qualifies.'
+  },
+  {
+    category: 'shipping',
+    question: 'What are the delivery charges?',
+    answer: 'Standard delivery is FREE on orders above ₹499. For orders below ₹499, a flat ₹49 shipping fee applies. Express delivery (1-2 days) is available at ₹99 extra. Same-day delivery in metro cities costs ₹149.'
+  },
+  {
+    category: 'shipping',
+    question: 'How long does delivery take?',
+    answer: 'Standard delivery: 4-7 business days. Express delivery: 1-2 business days. Same-day delivery: Order before 2 PM for delivery by 9 PM (available in metro cities). International shipping: 10-15 business days.'
+  },
+  {
+    category: 'shipping',
+    question: 'Do you deliver internationally?',
+    answer: 'Yes! We ship to 50+ countries including USA, UK, Canada, Australia, UAE, and Singapore. International shipping charges vary by destination and are calculated at checkout. Customs duties may apply.'
+  },
+  {
+    category: 'shipping',
+    question: 'Can I schedule delivery for a specific date?',
+    answer: 'Yes! During checkout, you can select your preferred delivery date. This is perfect for birthdays, anniversaries, or Valentine\'s Day surprises. Scheduled delivery is available up to 30 days in advance.'
+  },
+  {
+    category: 'gifts',
+    question: 'Can I add a personalized message?',
+    answer: 'Absolutely! Every order includes a FREE personalized gift card. You can add a message up to 200 characters. Premium handwritten cards and video messages (via QR code) are available at nominal charges.'
+  },
+  {
+    category: 'gifts',
+    question: 'Do you offer gift wrapping?',
+    answer: 'Yes! All orders come with our signature Couple Bazzar gift packaging at no extra cost. Premium gift boxes with ribbons and dried flowers are available for ₹149. Luxury gift hamper packaging costs ₹299.'
+  },
+  {
+    category: 'gifts',
+    question: 'Can I send gifts anonymously?',
+    answer: 'Yes! During checkout, you can choose to keep your identity hidden. The recipient will receive the gift with your message but without your name or contact details - perfect for secret admirers!'
+  },
+  {
+    category: 'gifts',
+    question: 'Do you have gift cards?',
+    answer: 'Yes! Couple Bazzar Gift Cards are available from ₹500 to ₹50,000. They never expire and can be used on any product. Gift cards are delivered instantly via email or SMS - perfect for last-minute gifts!'
+  },
+  {
+    category: 'returns',
+    question: 'What is your return policy?',
+    answer: 'We offer a 7-day easy return policy on most products. Personalized items and perishables (flowers, chocolates) are non-returnable. Items must be unused and in original packaging. Return shipping is free!'
+  },
+  {
+    category: 'returns',
+    question: 'How do I initiate a return?',
+    answer: 'Go to "My Orders" → Select Order → "Return Item". Choose your reason and preferred refund method. Our pickup partner will collect the item within 2-3 days. Refunds are processed within 5-7 business days.'
+  },
+  {
+    category: 'returns',
+    question: 'When will I receive my refund?',
+    answer: 'Refunds are processed within 5-7 business days after we receive the returned item. Credit/Debit card refunds may take additional 2-3 days to reflect. UPI and wallet refunds are instant upon processing.'
+  },
+];
+
+export function FAQPage({ onNavigate }: FAQPageProps) {
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [openFAQs, setOpenFAQs] = useState<number[]>([]);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
-  const toggleFAQ = (id: number) => {
-    setOpenFAQs((prev) =>
-      prev.includes(id) ? prev.filter((faqId) => faqId !== id) : [...prev, id]
-    );
-  };
-
-  const categories = [
-    { id: 'all', name: 'All Questions', icon: HelpCircle },
-    { id: 'orders', name: 'Orders & Tracking', icon: ShoppingBag },
-    { id: 'shipping', name: 'Shipping & Delivery', icon: Truck },
-    { id: 'payments', name: 'Payments', icon: CreditCard },
-    { id: 'returns', name: 'Returns & Refunds', icon: RefreshCw },
-    { id: 'gifts', name: 'Gift Services', icon: Gift },
-    { id: 'account', name: 'Account & Security', icon: Shield },
-  ];
-
-  const faqs = [
-    // Orders & Tracking
-    {
-      id: 1,
-      category: 'orders',
-      question: 'How do I track my order?',
-      answer: 'Once your order is shipped, you\'ll receive a tracking number via email and SMS. You can also track your order by logging into your account and visiting the "My Orders" section. Click on any order to see real-time tracking information including the current location and estimated delivery time.',
-    },
-    {
-      id: 2,
-      category: 'orders',
-      question: 'Can I modify or cancel my order after placing it?',
-      answer: 'You can modify or cancel your order within 2 hours of placing it, as long as it hasn\'t been processed for shipping. To make changes, go to "My Orders" in your account and click "Modify Order" or "Cancel Order". After 2 hours, please contact our support team for assistance.',
-    },
-    {
-      id: 3,
-      category: 'orders',
-      question: 'What happens if I\'m not available for delivery?',
-      answer: 'Our delivery partner will attempt delivery 3 times. If you\'re unavailable, the package will be held at the nearest pickup point for 7 days. You\'ll receive notifications about alternate delivery options. You can also reschedule delivery through the tracking page.',
-    },
-    
-    // Shipping & Delivery
-    {
-      id: 4,
-      category: 'shipping',
-      question: 'What are the delivery charges?',
-      answer: 'We offer FREE standard delivery on orders above ₹999. For orders below ₹999, a flat delivery fee of ₹79 applies. Express delivery (same-day/next-day) is available at ₹149 in select cities. International shipping rates vary by destination.',
-    },
-    {
-      id: 5,
-      category: 'shipping',
-      question: 'How long does delivery take?',
-      answer: 'Standard delivery takes 3-5 business days for major cities and 5-7 days for other locations. Express delivery options include: Same-day delivery (order before 12 PM), Next-day delivery (order before 6 PM). During peak seasons, delivery may take 1-2 additional days.',
-    },
-    {
-      id: 6,
-      category: 'shipping',
-      question: 'Do you deliver to all locations in India?',
-      answer: 'Yes! We deliver to 15,000+ pin codes across India. For remote areas, delivery may take slightly longer. Enter your pin code on the product page to check delivery availability and estimated time for your location.',
-    },
-    {
-      id: 7,
-      category: 'shipping',
-      question: 'What is Dual Delivery and how does it work?',
-      answer: 'Dual Delivery is our unique feature for couples! When you place an order, you can add two delivery addresses. We\'ll send identical or different items to both addresses, perfect for long-distance couples who want to open gifts together virtually. Additional shipping charges may apply for the second address.',
-    },
-    
-    // Payments
-    {
-      id: 8,
-      category: 'payments',
-      question: 'What payment methods do you accept?',
-      answer: 'We accept all major payment methods including: Credit/Debit Cards (Visa, Mastercard, Rupay), UPI (Google Pay, PhonePe, Paytm), Net Banking, Wallets (Paytm, Amazon Pay, Mobikwik), EMI options on select cards, and Cash on Delivery (for orders up to ₹10,000).',
-    },
-    {
-      id: 9,
-      category: 'payments',
-      question: 'Is it safe to pay online on Couple Bazzar?',
-      answer: 'Absolutely! We use industry-standard 256-bit SSL encryption to protect your payment information. We\'re PCI-DSS compliant and never store your complete card details. All transactions are processed through secure payment gateways like Razorpay.',
-    },
-    {
-      id: 10,
-      category: 'payments',
-      question: 'Can I use multiple payment methods for one order?',
-      answer: 'Currently, we support one payment method per order. However, you can combine store credits, gift cards, or discount coupons with any payment method. Wallet + Card split payment will be available soon!',
-    },
-    
-    // Returns & Refunds
-    {
-      id: 11,
-      category: 'returns',
-      question: 'What is your return policy?',
-      answer: 'We offer hassle-free returns within 7 days of delivery for most products. Items must be unused, in original packaging with all tags intact. Personalized items, perishables (flowers, chocolates), and intimate products are non-returnable. Initiate returns from "My Orders" section.',
-    },
-    {
-      id: 12,
-      category: 'returns',
-      question: 'How long does it take to process a refund?',
-      answer: 'Once we receive your returned item and verify its condition, refunds are processed within 2-3 business days. The amount will be credited to your original payment method within: 5-7 days for cards/net banking, 1-2 days for UPI/wallets, instant for store credits.',
-    },
-    {
-      id: 13,
-      category: 'returns',
-      question: 'What if I receive a damaged or wrong product?',
-      answer: 'We sincerely apologize if this happens! Please report damaged/wrong items within 48 hours of delivery with photos. We\'ll arrange a free pickup and send the correct item or issue a full refund. Contact us via chat or call our support line for immediate assistance.',
-    },
-    
-    // Gift Services
-    {
-      id: 14,
-      category: 'gifts',
-      question: 'Can I add a personalized message to my gift?',
-      answer: 'Yes! During checkout, you\'ll find an option to add a free personalized gift message (up to 200 characters). For video messages, you can upload a short video (up to 30 seconds) that the recipient can view via QR code on the gift card. Premium handwritten cards are available at ₹49.',
-    },
-    {
-      id: 15,
-      category: 'gifts',
-      question: 'Do you offer gift wrapping?',
-      answer: 'All orders come with complimentary standard gift wrapping. Premium gift wrapping options include: Luxury Box (₹99), Premium Hamper Style (₹149), and Surprise Balloon Box (₹249). Select your preferred wrapping during checkout.',
-    },
-    {
-      id: 16,
-      category: 'gifts',
-      question: 'Can I schedule a gift delivery for a specific date?',
-      answer: 'Absolutely! You can schedule delivery up to 30 days in advance. During checkout, select your preferred delivery date. For special occasions like Valentine\'s Day, we recommend scheduling at least a week ahead due to high demand.',
-    },
-    {
-      id: 17,
-      category: 'gifts',
-      question: 'What if the recipient is not home for a surprise delivery?',
-      answer: 'We\'ll coordinate with you! Our delivery partners are trained to handle surprise deliveries. You\'ll receive real-time updates, and if the recipient is unavailable, we\'ll contact you to reschedule. For critical surprise deliveries, consider our "Confirmed Delivery" add-on.',
-    },
-    
-    // Account & Security
-    {
-      id: 18,
-      category: 'account',
-      question: 'How do I create an account?',
-      answer: 'Click "Sign In" on the top right, then select "Create Account". You can register using your email, phone number, or sign in with Google/Facebook. Creating an account lets you track orders, save addresses, earn rewards, and get personalized recommendations.',
-    },
-    {
-      id: 19,
-      category: 'account',
-      question: 'How do I reset my password?',
-      answer: 'Click "Sign In", then "Forgot Password". Enter your registered email or phone number. You\'ll receive a 6-digit OTP to verify your identity. After verification, you can set a new password. For security, we recommend using a strong password with letters, numbers, and special characters.',
-    },
-    {
-      id: 20,
-      category: 'account',
-      question: 'How is my personal information protected?',
-      answer: 'Your privacy is our priority. We use enterprise-grade encryption for all data storage. We never share your personal information with third parties for marketing. You can manage your data preferences in Account Settings. Read our Privacy Policy for complete details.',
-    },
-  ];
-
-  const filteredFAQs = faqs.filter((faq) => {
-    const matchesCategory = activeCategory === 'all' || faq.category === activeCategory;
+  const filteredFAQs = faqs.filter(faq => {
+    const matchesCategory = selectedCategory === 'all' || faq.category === selectedCategory;
     const matchesSearch = faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   return (
-    <>
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-rose-500 py-20">
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-60 h-60 bg-white/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-pink-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <button
+            onClick={() => onNavigate('home')}
+            className="flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back to Home</span>
+          </button>
         </div>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-16 lg:py-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-rose-100"></div>
+        <div className="absolute top-10 left-10 w-96 h-96 bg-rose-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block p-4 bg-white/10 backdrop-blur-sm rounded-2xl mb-6">
-            <HelpCircle className="w-12 h-12 text-white" />
+        <div className="relative max-w-4xl mx-auto px-4 text-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full mb-6 shadow-2xl shadow-rose-500/30">
+            <HelpCircle className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            How Can We Help You?
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+              How can we help you?
+            </span>
           </h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Find answers to frequently asked questions or reach out to our support team.
+          <p className="text-xl text-gray-600 mb-8">
+            Find answers to frequently asked questions about orders, shipping, payments, and more.
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto relative">
+          <div className="relative max-w-2xl mx-auto">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400" />
             <input
               type="text"
+              placeholder="Search for answers..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search your question..."
-              className="w-full pl-14 pr-6 py-5 rounded-2xl bg-white shadow-2xl text-lg focus:ring-4 focus:ring-white/30 focus:outline-none"
+              className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-rose-200 focus:border-rose-500 focus:ring-0 text-lg shadow-lg transition-colors"
             />
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="py-8 bg-white shadow-sm sticky top-16 z-30">
+      <section className="py-8 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-hide">
-            {categories.map((cat) => (
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            {faqCategories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center space-x-2 px-5 py-3 rounded-xl font-medium whitespace-nowrap transition-all ${
-                  activeCategory === cat.id
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`flex items-center gap-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${
+                  selectedCategory === cat.id
                     ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-500/30'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-600 hover:bg-rose-50 hover:text-rose-600'
                 }`}
               >
                 <cat.icon className="w-5 h-5" />
-                <span>{cat.name}</span>
+                <span className="font-medium">{cat.name}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  selectedCategory === cat.id ? 'bg-white/20' : 'bg-gray-200'
+                }`}>
+                  {cat.count}
+                </span>
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Content */}
-      <section className="py-16">
+      {/* FAQ List */}
+      <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-4">
-            {filteredFAQs.map((faq) => (
-              <div 
-                key={faq.id}
-                className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
-                  openFAQs.includes(faq.id) ? 'ring-2 ring-rose-500' : ''
-                }`}
-              >
-                <button
-                  onClick={() => toggleFAQ(faq.id)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+          {filteredFAQs.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search className="w-10 h-10 text-rose-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No results found</h3>
+              <p className="text-gray-500">Try a different search term or browse by category</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredFAQs.map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all overflow-hidden border border-rose-100"
                 >
-                  <span className="font-semibold text-gray-900 pr-8">{faq.question}</span>
-                  <ChevronDown 
-                    className={`w-5 h-5 text-rose-500 flex-shrink-0 transition-transform duration-300 ${
-                      openFAQs.includes(faq.id) ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                <div 
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openFAQs.includes(faq.id) ? 'max-h-96' : 'max-h-0'
-                  }`}
-                >
-                  <div className="px-6 pb-6">
-                    <div className="pt-2 border-t border-gray-100">
-                      <p className="text-gray-600 leading-relaxed pt-4">{faq.answer}</p>
+                  <button
+                    onClick={() => setOpenFAQ(openFAQ === idx ? null : idx)}
+                    className="w-full flex items-center justify-between p-6 text-left"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                        openFAQ === idx 
+                          ? 'bg-gradient-to-br from-rose-500 to-pink-500 text-white' 
+                          : 'bg-rose-100 text-rose-500'
+                      }`}>
+                        <Heart className="w-5 h-5" />
+                      </div>
+                      <span className="font-semibold text-gray-900 text-lg pr-4">{faq.question}</span>
+                    </div>
+                    <ChevronDown className={`w-6 h-6 text-rose-500 flex-shrink-0 transition-transform duration-300 ${
+                      openFAQ === idx ? 'rotate-180' : ''
+                    }`} />
+                  </button>
+                  
+                  <div className={`overflow-hidden transition-all duration-300 ${
+                    openFAQ === idx ? 'max-h-96' : 'max-h-0'
+                  }`}>
+                    <div className="px-6 pb-6 pl-20">
+                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {filteredFAQs.length === 0 && (
-            <div className="text-center py-16">
-              <HelpCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No results found</h3>
-              <p className="text-gray-600">Try a different search term or browse categories above.</p>
+              ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Still Need Help Section */}
-      <section className="py-16 bg-gradient-to-br from-rose-50 to-pink-50">
+      {/* Quick Stats */}
+      <section className="py-12 bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Still Have Questions?</h2>
-            <p className="text-gray-600">Our support team is here to help you 24/7</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-rose-500/30">
-                <MessageCircle className="w-8 h-8 text-white" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white text-center">
+            {[
+              { icon: Clock, value: '< 24hrs', label: 'Avg Response Time' },
+              { icon: MessageCircle, value: '50K+', label: 'Queries Resolved' },
+              { icon: Heart, value: '98%', label: 'Satisfaction Rate' },
+              { icon: Shield, value: '24/7', label: 'Support Available' },
+            ].map((stat, idx) => (
+              <div key={idx} className="p-6">
+                <stat.icon className="w-10 h-10 mx-auto mb-3 opacity-80" />
+                <p className="text-3xl font-bold mb-1">{stat.value}</p>
+                <p className="text-rose-100 text-sm">{stat.label}</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Live Chat</h3>
-              <p className="text-gray-600 text-sm mb-4">Get instant answers from our team</p>
-              <button className="w-full py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl hover:from-rose-600 hover:to-pink-600 transition-all">
-                Start Chat
-              </button>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/30">
-                <Gift className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Email Us</h3>
-              <p className="text-gray-600 text-sm mb-4">We respond within 24 hours</p>
-              <button 
-                onClick={() => onNavigate('contact')}
-                className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all"
-              >
-                Contact Us
-              </button>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-xl p-8 text-center hover:shadow-2xl transition-all hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-500/30">
-                <Truck className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Call Us</h3>
-              <p className="text-gray-600 text-sm mb-4">Mon-Sat, 9 AM - 9 PM</p>
-              <a href="tel:+919876543210" className="block w-full py-3 bg-gradient-to-r from-purple-500 to-violet-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-violet-600 transition-all">
-                +91 98765 43210
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Popular Topics */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Quick Links</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['Track Order', 'Shipping Info', 'Return Policy', 'Payment Options', 'Gift Wrapping', 'Dual Delivery', 'Schedule Delivery', 'Secure Payment'].map((topic) => (
-              <button
-                key={topic}
-                className="px-6 py-3 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 font-medium rounded-full hover:from-rose-50 hover:to-pink-50 hover:text-rose-600 transition-all border border-gray-200"
-              >
-                {topic}
-              </button>
             ))}
           </div>
         </div>
       </section>
-    </div>
+
+      {/* Still Need Help */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Still need help?</h2>
+            <p className="text-gray-600">Our support team is always ready to assist you</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow border border-rose-100 group hover:-translate-y-1 duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <MessageCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Live Chat</h3>
+              <p className="text-gray-500 text-sm mb-4">Chat with our support team in real-time</p>
+              <button className="text-rose-500 font-semibold hover:text-rose-600">Start Chat →</button>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow border border-rose-100 group hover:-translate-y-1 duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <Phone className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Us</h3>
+              <p className="text-gray-500 text-sm mb-4">Mon-Sat, 9 AM - 9 PM IST</p>
+              <a href="tel:+918800123456" className="text-rose-500 font-semibold hover:text-rose-600">+91 8800 123 456</a>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow border border-rose-100 group hover:-translate-y-1 duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <Mail className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Email Us</h3>
+              <p className="text-gray-500 text-sm mb-4">We reply within 24 hours</p>
+              <a href="mailto:support@couplebazzar.com" className="text-rose-500 font-semibold hover:text-rose-600">support@couplebazzar.com</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer onNavigate={onNavigate} />
-    </>
+    </div>
   );
-};
+}

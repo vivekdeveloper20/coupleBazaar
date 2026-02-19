@@ -35,9 +35,9 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               className="flex items-center space-x-2 group"
             >
               <img 
-                src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
+                src="/logo.png" 
                 alt="Couple Bazzar Logo" 
-                className="h-12 object-contain group-hover:scale-110 transition-transform"
+                className="h-44 mt-3 object-contain group-hover:scale-110 transition-transform"
               />
             </button>
 
@@ -184,9 +184,9 @@ export const Header = ({ onNavigate, currentPage }: HeaderProps) => {
               </button>
               <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <div className="bg-white rounded-lg shadow-xl border border-gray-100 py-2 min-w-[180px]">
-                  <button onClick={() => onNavigate('products?collection=premium')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Premium Collection</button>
-                  <button onClick={() => onNavigate('products?collection=couple')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Couple Collection</button>
-                  <button onClick={() => onNavigate('products?collection=limited')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Limited Edition</button>
+                  <button onClick={() => onNavigate('premium-collection')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Premium Collection</button>
+                  <button onClick={() => onNavigate('couple-collection')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Couple Collection</button>
+                  <button onClick={() => onNavigate('limited-edition')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-600">Limited Edition</button>
                 </div>
               </div>
             </div>

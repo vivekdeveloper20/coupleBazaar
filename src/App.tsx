@@ -14,6 +14,10 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
 import { FAQPage } from './pages/FAQPage';
+import PremiumCollectionPage from './pages/PremiumCollectionPage';
+import CoupleCollectionPage from './pages/CoupleCollectionPage';
+import LimitedEditionPage from './pages/LimitedEditionPage';
+import GiftCardPage from './pages/GiftCardPage';
 import { isSupabaseConfigured } from './lib/supabase';
 
 function App() {
@@ -96,6 +100,14 @@ function App() {
         return <BlogPage onNavigate={navigate} />;
       case 'faq':
         return <FAQPage onNavigate={navigate} />;
+      case 'premium-collection':
+        return <PremiumCollectionPage onNavigate={navigate} onAddToCart={() => {}} onAddToWishlist={() => {}} />;
+      case 'couple-collection':
+        return <CoupleCollectionPage onNavigate={navigate} onAddToCart={() => {}} onAddToWishlist={() => {}} />;
+      case 'limited-edition':
+        return <LimitedEditionPage onNavigate={navigate} onAddToCart={() => {}} onAddToWishlist={() => {}} />;
+      case 'gift-card':
+        return <GiftCardPage onNavigate={navigate} />;
       default:
         return <HomePage onNavigate={navigate} />;
     }

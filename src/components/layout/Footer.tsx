@@ -58,7 +58,7 @@ export const Footer = ({ onNavigate }: FooterProps) => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <img 
-                src="https://drive.google.com/uc?export=view&id=1BwGRbYgmVZcMG4ICQy_JLDcMK-VfgZvg" 
+                src="/logo.png" 
                 alt="Couple Bazzar Logo" 
                 className="h-16 object-contain"
               />
